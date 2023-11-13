@@ -10,7 +10,7 @@
         </div>
         <div class="ms-auto pageheader-btn">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0);">SProduct</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0);">Product</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Add Product</li>
             </ol>
         </div>
@@ -24,13 +24,13 @@
                     <h3 class="card-title">Add Product Form</h3>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted">{{session('message')}}</p>
+                    <p class="text-success text-center">{{session('message')}}</p>
                     <form class="form-horizontal" action="{{route('product.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
                             <label class="col-md-3 form-label">Category Name</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="category_id" required>
+                                <select class="form-control" onchange="setSubCategory(this.value)" name="category_id" required>
                                     <option value="" disabled selected> -- Select Category -- </option>
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}"> {{$category->name}} </option>
@@ -42,7 +42,7 @@
                         <div class="row mb-4">
                             <label class="col-md-3 form-label">Sub Category Name</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="sub_category_id" required>
+                                <select class="form-control" name="sub_category_id" id="subCategoryId" required>
                                     <option value="" disabled selected> -- Select Sub Category -- </option>
                                     @foreach($sub_categories as $sub_category)
                                         <option value="{{$sub_category->id}}"> {{$sub_category->name}} </option>
@@ -78,9 +78,9 @@
                         <div class="row mb-4">
                             <label class="col-md-3 form-label">Color Name</label>
                             <div class="col-md-9 form-group">
-                                <select multiple class="form-control select2-show-search " name="color_id" data-placeholder="Product Color Name" required>
+                                <select multiple class="form-control select2-show-search form-select" name="colors[]" data-placeholder="Select Product Color" required>
                                     @foreach($colors as $color)
-                                        <option value="{{$color->id}}"> {{$color->name}} </option>
+                                    <option value="{{$color->id}}">{{$color->name}}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger">{{$errors->has('color_id') ? $errors->first('color_id') : ''}}</span>
@@ -88,9 +88,8 @@
                         </div>
                         <div class="row mb-4">
                             <label class="col-md-3 form-label">Size Name</label>
-                            <div class="col-md-9">
-                                <select class="form-control" name="size_id" required>
-                                    <option value="" disabled selected> -- Select Size -- </option>
+                            <div class="col-md-9 form-group">
+                                <select multiple class="form-control select2-show-search form-select" name="sizes[]" data-placeholder="Select Product Size" required>
                                     @foreach($sizes as $size)
                                         <option value="{{$size->id}}"> {{$size->name}} </option>
                                     @endforeach
@@ -106,9 +105,9 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="firstName" class="col-md-3 form-label">Product code</label>
+                            <label for="firstCode" class="col-md-3 form-label">Product Code</label>
                             <div class="col-md-9">
-                                <input class="form-control" value="{{old('code')}}" id="firstName" name="code" placeholder="Product code" type="text"/>
+                                <input class="form-control" value="{{old('code')}}" id="firstCode" name="code" placeholder="Product Code" type="text"/>
                                 <span class="text-danger">{{$errors->has('code') ? $errors->first('code') : ''}}</span>
                             </div>
                         </div>
@@ -119,30 +118,36 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="lastName" class="col-md-3 form-label">Long Description</label>
+                            <label for="summernote" class="col-md-3 form-label">Long Description</label>
                             <div class="col-md-9">
-                                <textarea class="form-control" id="longDescription" name="long_description" placeholder="Long Description"></textarea>
+                                <textarea class="form-control" id="summernote" name="long_description" placeholder="Long Description"></textarea>
                             </div>
                         </div>
                         <div class="row mb-4">
                             <label for="imgInp" class="col-md-3 form-label">Product Image</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="imgInp" name="image" type="file"/>
-                                <img src="" id="categoryImage" alt=""/>
+                                <input type="file" class="dropify" name="image" data-height="200"/>
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label  class="col-md-3 form-label">Product Price</label>
-                            <div class="col-md-9 input-group ">
-                                <input class="form-control"  name="regular_price" type="number" placeholder="Regular Price "/>
-                                <input class="form-control"  name="selling_price" type="number" placeholder="Selling  Price "/>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label  class="col-md-3 form-label">Stock Amount</label>
+                            <label class="col-md-3 form-label">Product Other Image</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="stockAmount"  name="stock_amount" type="number" placeholder="Stock Amount "/>
-
+                                <input type="file" name="other_image[]" class="form-control" multiple/>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-md-3 form-label">Product Price</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input class="form-control" name="regular_price" placeholder="Regular Price" type="number"/>
+                                    <input class="form-control" name="selling_price" placeholder="Selling Price" type="number"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label for="stockAmount" class="col-md-3 form-label">Stock Amount</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="stockAmount" name="stock_amount" placeholder="Stock Amount" type="number"/>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -154,7 +159,6 @@
                         </div>
                         <button class="btn btn-primary rounded-0 float-end" type="submit">Create New Product</button>
                     </form>
-
                 </div>
             </div>
         </div>

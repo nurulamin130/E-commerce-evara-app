@@ -21,13 +21,14 @@ return new class extends Migration
             $table->string('code');
             $table->text('short_description');
             $table->longText('long_description');
-            $table->integer('image');
+            $table->text('image');
             $table->double('regular_price' ,11,2);
             $table->double('selling_price' ,11,2);
             $table->integer('stock_amount' )->default(0);
             $table->integer('hit_count' )->default(0);
             $table->integer('sales_count' )->default(0);
-            $table->tinyInteger('feature_status' )->default(1);
+            $table->tinyInteger('featured_status' )->default(1);
+            $table->tinyInteger('status' )->default(1);
             $table->timestamps();
         });
     }

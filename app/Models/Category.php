@@ -9,6 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
+
     private static $category, $image, $imageName, $directory, $imageUrl;
 
     private static function getImageUrl($request)

@@ -29,14 +29,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         Category::newCategory($request);
-        return back()->with('message','Category Info Create Successfully');
-
+        return back()->with('message', 'Category info create successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(category $category)
+    public function show(Category $category)
     {
         //
     }
@@ -44,15 +43,15 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(category $category)
+    public function edit(Category $category)
     {
-        return view('admin.category.edit');
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -60,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(Category $category)
     {
         //
     }
