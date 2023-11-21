@@ -36,7 +36,8 @@
                                 <th class="border-bottom-0">Image</th>
                                 <th class="border-bottom-0">Stock Amount</th>
                                 <th class="border-bottom-0">Status</th>
-                                <th class="border-bottom-0">Action</th>
+                                <th class="border-bottom-0">Status</th>
+
                             </tr>
                             </thead>
                             <tbody>

@@ -31,4 +31,7 @@ class Category extends Model
         self::$category->status         = $request->status;
         self::$category->save();
     }
+    public function subCategory(){
+        return $this->hasMany(SubCategory::class);
+    }
 }

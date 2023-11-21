@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Evara - eCommerce HTML Template</title>
+    <title>Evara - @yield('title')</title>
     @include('website.includes.style')
 
 </head>
@@ -16,5 +16,4 @@
 <!-- Preloader Start -->
 @include('website.includes.script');
 </body>
-
 </html>

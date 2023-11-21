@@ -10,11 +10,14 @@ use  App\Http\Controllers\UnitController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
+use  App\Http\Controllers\CartController;
 
 
 Route::get('/',[EvaraController::class,'index'])->name('home');
-Route::get('/product-category',[EvaraController::class,'category'])->name('product-category');
-Route::get('/product-detail',[EvaraController::class,'product'])->name('product-detail');
+Route::get('/product-category{id}',[EvaraController::class,'category'])->name('product-category');
+Route::get('/product-detail/{id}',[EvaraController::class,'product'])->name('product-detail');
+
+Route::resources(['carts'=>CartController::class]);
 
 Route::middleware([ 'auth:sanctum',config('jetstream.auth_session'),'verified',
 ])->group(function () {

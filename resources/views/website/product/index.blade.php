@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumb">
                 <a href="index-2.html" rel="nofollow">Home</a>
-                <span></span> Fashion
-                <span></span> Abstract Print Patchwork Dress
+                <span></span> {{$product->category->name}}
+                <span></span> {{$product->ame}}
             </div>
         </div>
     </div>
@@ -15,34 +15,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="product-detail accordion-detail">
+                    <form action="{{route('carts.store')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$product->id}}">
+                       <div class="product-detail accordion-detail">
                         <div class="row mb-50">
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <div class="detail-gallery">
                                     <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                     <!-- MAIN SLIDES -->
                                     <div class="product-image-slider">
+                                        @foreach($product->productImages as $productImage)
                                         <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-2.jpg" alt="product image">
+                                            <img src="{{asset($productImage->image)}}" alt="product image">
                                         </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-1.jpg" alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-3.jpg" alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-4.jpg" alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-5.jpg" alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-6.jpg" alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10">
-                                            <img src="{{asset('/')}}website/assets/imgs/shop/product-16-7.jpg" alt="product image">
-                                        </figure>
+                                        @endforeach
                                     </div>
                                     <!-- THUMBNAILS -->
                                     <div class="slider-nav-thumbnails pl-15 pr-15">
@@ -59,10 +46,10 @@
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <div class="detail-info">
-                                    <h2 class="product-detail">Colorful Pattern Shirts HD450</h2>
+                                    <h2 class="product-detail">{{$product->name}}</h2>
                                     <div class="product-detail-rating">
                                         <div class="pro-details-brand">
-                                            <span> Brands: <a href="shop-grid-right.html">Bootstrap</a></span>
+                                            <span> Brands: <a href="shop-grid-right.html">{{$product->brand->name}}</a></span>
                                         </div>
                                         <div class="product-rate-cover text-end">
                                             <div class="product-rate d-inline-block">
@@ -74,14 +61,14 @@
                                     </div>
                                     <div class="clearfix product-price-cover">
                                         <div class="product-price primary-color float-left">
-                                            <ins><span class="text-brand">$120.00</span></ins>
-                                            <ins><span class="old-price font-md ml-15">$200.00</span></ins>
+                                            <ins><span class="text-brand">TK. {{$product->selling_price}}</span></ins>
+                                            <ins><span class="old-price font-md ml-15">TK. {{$product->regular_price}}</span></ins>
                                             <span class="save-price  font-md color3 ml-15">25% Off</span>
                                         </div>
                                     </div>
                                     <div class="bt-1 border-color-1 mt-15 mb-15"></div>
                                     <div class="short-desc mb-30">
-                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam rem officia, corrupti reiciendis minima nisi modi, quasi, odio minus dolore impedit fuga eum eligendi? Officia doloremque facere quia. Voluptatum, accusantium!</p>
+                                        <p>{{$product->short_description}}</p>
                                     </div>
                                     <div class="product_sort_info font-xs mb-30">
                                         <ul>
@@ -93,23 +80,28 @@
                                     <div class="attr-detail attr-color mb-15">
                                         <strong class="mr-10">Color</strong>
                                         <ul class="list-filter color-filter">
-                                            <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>
-                                            <li><a href="#" data-color="Yellow"><span class="product-color-yellow"></span></a></li>
-                                            <li class="active"><a href="#" data-color="White"><span class="product-color-white"></span></a></li>
-                                            <li><a href="#" data-color="Orange"><span class="product-color-orange"></span></a></li>
-                                            <li><a href="#" data-color="Cyan"><span class="product-color-cyan"></span></a></li>
-                                            <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>
-                                            <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>
+                                            @foreach($product->colors as $color)
+                                            <li>
+                                                <a href="#" data-color="Red">
+                                                    <span class="product-color-{{$color->color->name}}">
+
+                                                    </span>
+                                                    <input type="hidden" name="color" value="{{$color->color->name}}">
+                                                </a>
+                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div class="attr-detail attr-size">
                                         <strong class="mr-10">Size</strong>
                                         <ul class="list-filter size-filter font-small">
-                                            <li><a href="#">S</a></li>
-                                            <li class="active"><a href="#">M</a></li>
-                                            <li><a href="#">L</a></li>
-                                            <li><a href="#">XL</a></li>
-                                            <li><a href="#">XXL</a></li>
+                                            @foreach($product->sizes as $size)
+                                            <li>
+                                                <a href="#">{{$size->size->name}}</a>
+                                                <input type="hidden" name="size" value="{{$size->size->name}}">
+
+                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div class="bt-1 border-color-1 mt-30 mb-30"></div>
@@ -128,7 +120,7 @@
                                     <ul class="product-meta font-xs color-grey mt-50">
                                         <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                                         <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
-                                        <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li>
+                                        <li>Availability:<span class="in-stock text-success ml-5">{{$product->stock_amount}}</span></li>
                                     </ul>
                                 </div>
                                 <!-- Detail Info -->
@@ -138,120 +130,12 @@
                             <div class="col-lg-10 m-auto entry-main-content">
                                 <h2 class="section-title style-1 mb-30">Description</h2>
                                 <div class="description mb-50">
-                                    <p>Uninhibited carnally hired played in whimpered dear gorilla koala depending and much yikes off far quetzal goodness and from for grimaced goodness unaccountably and meadowlark near unblushingly crucial scallop
-                                        tightly neurotic hungrily some and dear furiously this apart.</p>
-                                    <p>Spluttered narrowly yikes left moth in yikes bowed this that grizzly much hello on spoon-fed that alas rethought much decently richly and wow against the frequent fluidly at formidable acceptably flapped
-                                        besides and much circa far over the bucolically hey precarious goldfinch mastodon goodness gnashed a jellyfish and one however because.
-                                    </p>
-                                    <ul class="product-more-infor mt-30">
-                                        <li><span>Type Of Packing</span> Bottle</li>
-                                        <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                        <li><span>Quantity Per Case</span> 100ml</li>
-                                        <li><span>Ethyl Alcohol</span> 70%</li>
-                                        <li><span>Piece In One</span> Carton</li>
-                                    </ul>
-                                    <hr class="wp-block-separator is-style-dots">
-                                    <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello far meadowlark imitatively egregiously hugged that yikes minimally unanimous pouted flirtatiously as beaver beheld above forward
-                                        energetic across this jeepers beneficently cockily less a the raucously that magic upheld far so the this where crud then below after jeez enchanting drunkenly more much wow callously irrespective limpet.</p>
-                                    <h4 class="mt-30">Packaging & Delivery</h4>
-                                    <hr class="wp-block-separator is-style-wide">
-                                    <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly scratched far while thus cackled sheepishly rigid after due one assenting regarding censorious while occasional or this more crane
-                                        went more as this less much amid overhung anathematic because much held one exuberantly sheep goodness so where rat wry well concomitantly.
-                                    </p>
-                                    <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously and and less rattlesnake contrary caustic wow this near alas and next and pled the yikes articulate about as less cackled dalmatian
-                                        in much less well jeering for the thanks blindly sentimental whimpered less across objectively fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious luridly irrationally attractively
-                                        dachshund.
-                                    </p>
+                                    <p>{!! $product->long_description !!}</p>
+
+
                                 </div>
                                 <h3 class="section-title style-1 mb-30">Additional info</h3>
-                                <table class="font-md mb-30">
-                                    <tbody>
-                                    <tr class="stand-up">
-                                        <th>Stand Up</th>
-                                        <td>
-                                            <p>35″L x 24″W x 37-45″H(front to back wheel)</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="folded-wo-wheels">
-                                        <th>Folded (w/o wheels)</th>
-                                        <td>
-                                            <p>32.5″L x 18.5″W x 16.5″H</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="folded-w-wheels">
-                                        <th>Folded (w/ wheels)</th>
-                                        <td>
-                                            <p>32.5″L x 24″W x 18.5″H</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="door-pass-through">
-                                        <th>Door Pass Through</th>
-                                        <td>
-                                            <p>24</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="frame">
-                                        <th>Frame</th>
-                                        <td>
-                                            <p>Aluminum</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="weight-wo-wheels">
-                                        <th>Weight (w/o wheels)</th>
-                                        <td>
-                                            <p>20 LBS</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="weight-capacity">
-                                        <th>Weight Capacity</th>
-                                        <td>
-                                            <p>60 LBS</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="width">
-                                        <th>Width</th>
-                                        <td>
-                                            <p>24″</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="handle-height-ground-to-handle">
-                                        <th>Handle height (ground to handle)</th>
-                                        <td>
-                                            <p>37-45″</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="wheels">
-                                        <th>Wheels</th>
-                                        <td>
-                                            <p>12″ air / wide track slick tread</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="seat-back-height">
-                                        <th>Seat back height</th>
-                                        <td>
-                                            <p>21.5″</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="head-room-inside-canopy">
-                                        <th>Head room (inside canopy)</th>
-                                        <td>
-                                            <p>25″</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="pa_color">
-                                        <th>Color</th>
-                                        <td>
-                                            <p>Black, Blue, Red, White</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="pa_size">
-                                        <th>Size</th>
-                                        <td>
-                                            <p>M, S</p>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+
                                 <div class="social-icons single-share">
                                     <ul class="text-grey-5 d-inline-block">
                                         <li><strong class="mr-10">Share this:</strong></li>
@@ -557,6 +441,7 @@
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
